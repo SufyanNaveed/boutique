@@ -1429,7 +1429,7 @@ class Pos_invoices extends CI_Controller
                 $date = dateformat($data['invoice']['invoicedate']) . ' ' . date('h:i:s A');
 
 
-//simple and fast printing
+                //simple and fast printing
                 if (!$printer_data['other']) {
 
                     // Start the printer
@@ -1510,28 +1510,28 @@ class Pos_invoices extends CI_Controller
 
                     $this->load->model('billing_model', 'billing');
                     $online_pay = $this->billing->online_pay_settings();
-                    if ($online_pay['enable'] == 1) {
-                        $token = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
-                        $data['qrc'] = 'pos_' . date('Y_m_d_H_i_s') . '_.png';
-                        $static_q = $data['qrc'];
+                    // if ($online_pay['enable'] == 1) {
+                    //     $token = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
+                    //     $data['qrc'] = 'pos_' . date('Y_m_d_H_i_s') . '_.png';
+                    //     $static_q = $data['qrc'];
 
-                        $qrCode = QrCode::create(base_url('billing/card?id=' . $tid . '&itype=inv&token=' . $token))
-                            ->setEncoding(new Encoding('UTF-8'))
-                            ->setSize(300)
-                            ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
-                            ->setForegroundColor(new Color(0, 0, 0))
-                            ->setBackgroundColor(new Color(255, 255, 255));
+                    //     $qrCode = QrCode::create(base_url('billing/card?id=' . $tid . '&itype=inv&token=' . $token))
+                    //         ->setEncoding(new Encoding('UTF-8'))
+                    //         ->setSize(300)
+                    //         ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
+                    //         ->setForegroundColor(new Color(0, 0, 0))
+                    //         ->setBackgroundColor(new Color(255, 255, 255));
 
-                        $writer = new PngWriter();
-                        $result = $writer->write($qrCode);
-                        $result->saveToFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
+                    //     $writer = new PngWriter();
+                    //     $result = $writer->write($qrCode);
+                    //     $result->saveToFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
 
-                        //$qrCode = new QrCode(base_url('billing/card?id=' . $tid . '&itype=inv&token=' . $token));
+                    //     //$qrCode = new QrCode(base_url('billing/card?id=' . $tid . '&itype=inv&token=' . $token));
 
-//header('Content-Type: '.$qrCode->getContentType());
-//echo $qrCode->writeString();
-                       // $qrCode->writeFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
-                    }
+                    //     //header('Content-Type: '.$qrCode->getContentType());
+                    //     //echo $qrCode->writeString();
+                    //    // $qrCode->writeFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
+                    // }
 
                     // boost the memory limit if it's low ;)
                     ini_set('memory_limit', '64M');
@@ -1559,7 +1559,7 @@ class Pos_invoices extends CI_Controller
                         // echo 'imagick not installed';
                         echo json_encode(array('status' => 'Error', 'message' => 'imagick not installed'));
                         $printer->close();
-die();
+                        die();
                     }
                     try {
                         $im = new Imagick();
@@ -1592,7 +1592,7 @@ die();
 
 
                     } catch (ImagickException $imagick_exception) {
-echo 6;
+                        echo 6;
                     }
                 }
 
@@ -1655,24 +1655,24 @@ echo 6;
         if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
         $this->load->model('billing_model', 'billing');
         $online_pay = $this->billing->online_pay_settings();
-        if ($online_pay['enable'] == 1) {
-            $token = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
-            $data['qrc'] = 'pos_' . date('Y_m_d_H_i_s') . '_.png';
-            $qrCode = QrCode::create(base_url('billing/card?id=' . $tid . '&itype=inv&token=' . $token))
-                ->setEncoding(new Encoding('UTF-8'))
-                ->setSize(300)
-                ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
-                ->setForegroundColor(new Color(0, 0, 0))
-                ->setBackgroundColor(new Color(255, 255, 255));
+        // if ($online_pay['enable'] == 1) {
+        //     $token = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
+        //     $data['qrc'] = 'pos_' . date('Y_m_d_H_i_s') . '_.png';
+        //     $qrCode = QrCode::create(base_url('billing/card?id=' . $tid . '&itype=inv&token=' . $token))
+        //         ->setEncoding(new Encoding('UTF-8'))
+        //         ->setSize(300)
+        //         ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
+        //         ->setForegroundColor(new Color(0, 0, 0))
+        //         ->setBackgroundColor(new Color(255, 255, 255));
 
-            $writer = new PngWriter();
-            $result = $writer->write($qrCode);
-            $result->saveToFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
-           // $qrCode = new QrCode(base_url('billing/view?id=' . $tid . '&itype=inv&token=' . $token));
-//header('Content-Type: '.$qrCode->getContentType());
-//echo $qrCode->writeString();
-           // $qrCode->writeFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
-        }
+        //     $writer = new PngWriter();
+        //     $result = $writer->write($qrCode);
+        //     $result->saveToFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
+        //     // $qrCode = new QrCode(base_url('billing/view?id=' . $tid . '&itype=inv&token=' . $token));
+        //     //header('Content-Type: '.$qrCode->getContentType());
+        //     //echo $qrCode->writeString();
+        //     // $qrCode->writeFile(FCPATH . 'userfiles/pos_temp/' . $data['qrc']);
+        // }
         // boost the memory limit if it's low ;)
         ini_set('memory_limit', '64M');
         // load library
