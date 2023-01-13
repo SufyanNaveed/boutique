@@ -7,7 +7,7 @@
         html, body {
             margin: 0;
             padding: 0;
-            font-size: 9pt;
+            font-size: 10pt;
             background-color: #fff;
         }
 
@@ -16,7 +16,7 @@
         }
 
         #products tr td {
-            font-size: 8pt;
+            font-size:9pt;
         }
 
         #printbox {
@@ -37,9 +37,9 @@
         .stamp {
             margin: 5pt;
             padding: 3pt;
-            border: 3pt solid #111;
+            border: 2pt solid #111;
             text-align: center;
-            font-size: 20pt;
+            font-size: 12pt;
             color
         }
 
@@ -49,32 +49,26 @@
     </style>
 </head>
 <body dir="<?= LTR ?>">
-<h3 id="logo" class="text-center"><br><img style="max-height:100px;" src='<?php $loc = location($invoice['loc']);
-    echo base_url() . 'userfiles/company/' . $loc['logo'];
+<h3 id="logo" class="text-center"><br><img style="max-height:50px;" src='<?php $loc = location($invoice['loc']);
+    echo FCPATH . 'userfiles/company/' . $loc['logo'];
     ?>' alt='Logo'></h3>
 <div id='printbox'>
-    <h2 style="margin-top:0" class="text-center"><?= $loc['cname'] ?></h2>
-
+    <!-- <h2 style="margin-top:0" class="text-center"><?= $loc['cname'] ?></h2> -->
     <table class="inv_info">
-        <?php   if ($loc['taxid']) {      ?> <tr>
-            <td><?php echo $this->lang->line('Tax') . ' ID: '  ?></td>
-            <td><?php echo $loc['taxid'] ?></td>
-        </tr>
-        <?php } ?>
         <tr>
             <td><?php echo $this->lang->line('Invoice') ?></td>
             <td><?php echo $this->config->item('prefix') . ' #' . $invoice['tid'] ?></td>
         </tr>
         <tr>
             <td><?php echo $this->lang->line('Invoice Date') ?></td>
-            <td><?php echo dateformat($invoice['invoicedate']) . ' ' . date('H:i:s') ?><br></td>
+            <td><?php date_default_timezone_set("Asia/Karachi"); 
+            echo dateformat($invoice['invoicedate']) . ' ' . date('h:i:s') ?><br></td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td><?php echo $this->lang->line('Customer') ?></td>
             <td><?php echo $invoice['name']; ?></td>
         </tr>
-        
-    </table>
+ -->    </table>
     <hr>
     <table id="products">
         <tr class="product_row">
@@ -93,7 +87,7 @@
             $this->pheight = $this->pheight + 8;
             echo '<tr>
             <td >' . $row['product'] . '</td>
-             <td>' . +$row['qty'] . ' ' . $row['unit'] . '</td>
+             <td>' . +$row['qty'] . '</td>
             <td>' . amountExchange($row['subtotal'], $invoice['multi'], $invoice['loc']) . '</td>
         </tr><tr><td colspan="3">&nbsp;</td></tr>';
         } ?>
@@ -116,9 +110,7 @@
             ?>
             <tr>
                 <td><b><?php echo $this->lang->line('IGST') ?></b></td>
-                <td><b><?php echo amountExchange($invoice['tax'], $invoice['multi']) ?></b>
-                    (<?= amountFormat_general($row['tax']) ?>%)
-                </td>
+                <td><b><?php echo amountExchange($invoice['tax'], $invoice['multi']) ?></b> (<?= $row['tax'] ?>%)</td>
             </tr>
         <?php } ?>
         <tr>
@@ -133,7 +125,6 @@
             <td><b><?php echo $this->lang->line('Total') ?></b></td>
             <td><b><?php echo amountExchange($invoice['total'], $invoice['multi'], $invoice['loc']) ?></b></td>
         </tr>
-
         <?php
         if ($round_off['other']) {
             $final_amount = round($invoice['total'], $round_off['active'], constant($round_off['other']));
