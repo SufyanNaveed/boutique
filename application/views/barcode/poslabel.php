@@ -33,8 +33,8 @@
             <barcode code="<?= $lab['barcode'] ?>" text="0" class="barcode" width="2" size="25" height=".3"/>
             </barcode>
             <br><br>
-            <span style="bordfont font-size:350px;">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="bordfont font-size:500px;">
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 <strong> <?= amountExchange($lab['product_price'], 0, $this->aauth->get_user()->loc) ?> </strong>
             </span>
         </td>
